@@ -56,8 +56,8 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: ClassLibraryProjects/StringLibrary.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: ClassLibraryProjects/StringLibraryTest/StringLibraryTest.csProj            # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Solution_Name: StringLibrary.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
+      Test_Project_Path: StringLibraryTest/StringLibraryTest.csProj            # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
 
     steps:
     - name: Checkout
@@ -77,10 +77,12 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
+      working-directory: ClassLibraryProjects/StringLibrary
       run: dotnet test
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
+      working-directory: ClassLibraryProjects/StringLibrary
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
